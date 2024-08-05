@@ -27,6 +27,28 @@ The goal of the ScrollFlow project is to provide a JavaScript library for scroll
 
 # Installation
 
+## Module
+
+```bash
+$ npm install scrollflow
+```
+
+This way you can initialize Scroll Flow in your file.js like this:
+
+```js
+import { ScrollFlow } from 'scrollflow';
+import 'scrollflow/dist/style.css';
+
+window.addEventListener('DOMContentLoaded', () => {
+  const scrollFlow = new ScrollFlow();
+  scrollFlow.start();
+});
+```
+> Remembering that your script that calls this .js file must have the type module:
+> <script type="module" src="file.js"></script>
+
+<br>
+
 ## CDN
 
 A simple and quick way for you to explore the possibilities of ScrollFlow using CDN:
@@ -50,27 +72,6 @@ This will create the global variable `ScrollFlow` and you can use it like this:
 </script>
 ```
 
-
-## Module
-
-```bash
-$ npm install scrollflow
-```
-
-This way you can initialize Scroll Flow in your file.js like this:
-
-```js
-import { ScrollFlow } from 'scrollflow';
-import 'scrollflow/dist/style.css';
-
-window.addEventListener('DOMContentLoaded', () => {
-  const scrollFlow = new ScrollFlow();
-  scrollFlow.start();
-});
-```
-> Remembering that your script that calls this .js file must have the type module:
-> <script type="module" src="file.js"></script>
-
 <br>
 
 # Usage
@@ -92,7 +93,7 @@ HTML must maintain a standard structure that includes the following tags:
 
 <br>
 
-## Options and Properties 
+## Customize 
 All the functionalities of ScrollFlow.Js are highly customizable to meet the specific needs of each project:
 
 ### Vertical/Horizontal Support
@@ -116,8 +117,12 @@ By default, the overlay flow occurs on the y-axis, that is, vertical. To change 
   });
 ```
 
+<br>
+
 ### ContentOverflow
 If you have a section that has or may have content longer than the height of the user's screen, ContentOverflow will ensure that all your content is displayed before calling the next overlap.
+
+<br>
 
 ### Fade and Fade Content
 The input fade properties are easily applied using classes, both should be applied to the "scrollflow" element. The "Fade" is an alternative to the overlapping effect:
@@ -150,6 +155,8 @@ If you prefer, you can also set the `fade` property in start():
   });
 ```
 
+<br>
+
 ### Pagination and Anchor Links
 The operation is simple: direct links to specific sections. With `paginate` property, we enable bullets that float on the screen according to the orientation of the overlapping flow. To enable, just set it in the start() function:
 
@@ -174,9 +181,159 @@ To create links to other pages and specific sections, we use the "sf-trigger" cl
   
   ...
 ```
-| Props |    |    |
-| :---:   | :---: | :---: |
-| `horizontal` | boolean   |  navigation direction  |
-| `paginate` | boolean   |  bullets that float on the screen that act as triggers for the sections  |
-| `paginateAxis` | 'y' | 'x'   |  bullets position on the screen  |
-| `fade` | 'auto' | 'content' | 'none'   |  sections or section content entrance  |
+<br>
+
+## Instance Props 
+
+
+| Props |  Type  |  Default  |  Description  |
+| :---:   | :---: | :---: | :---: |
+| `horizontal` | boolean   | `false` |  Navigation direction  |
+| `paginate` | boolean   | `false` | Bullets that float on the screen that act as triggers for the sections  |
+| `paginateAxis` | 'y', 'x'   | `'y'` | Bullets position on the screen  |
+| `fade` | 'auto', 'content', 'none' | `'content'` |  Sections or section content entrance  |
+| `breakpoint` | number | `1024` |  Breakpoint that informs what the page break is to change mobile x desktop interactions  |
+| `speed` | number | `900` |  Transition time, in milliseconds, for the overlapping interaction  |
+
+<br>
+
+## Instance Methods 
+
+#### <em>`start()`</em>
+This method is responsible for starting ScrollFlow, activating the features and applying the defined settings.
+```js
+    document.addEventListener('DOMContentLoaded', () => {
+    
+        const scrollFlow = new ScrollFlow();    
+    
+        scrollFlow.start();  // If necessary, include the properties here
+    });
+```
+
+<br>
+
+#### <em>`onChangeSection()`</em>
+This method is a listener that allows you to execute specific actions whenever a new section is reached while scrolling. It can be very useful for adding dynamic functionalities that depend on the current section the user is viewing. For example, you might want to change the content of a menu, update a progress indicator, or trigger specific animations when the user reaches a certain part of the page.
+
+We can use it with a callback to access the scroll direction (next or previous), the starting index and the destination index, or just listen for section changes:
+```js
+    document.addEventListener('DOMContentLoaded', () => {
+    
+        const scrollFlow = new ScrollFlow();    
+    
+        scrollFlow.start();
+
+        // Example of using onChange callback
+        scrollFlow.onChangeSection((direction, currentIndex, targetIndex) => {
+            console.log(direction, currentIndex, targetIndex);
+        });
+
+        // Example of using onChangeSection without callback
+        scrollFlow.onChangeSection(() => {
+            console.log('section changed');
+        })
+    });
+```
+<br>
+
+#### <em>`stop()`</em>
+This method allows you to interrupt the page's navigation flow. When called, scrolling ceases to function, whether in the vertical or horizontal direction. This is especially useful in situations where it's necessary to pause the page's movement temporarily, such as during the display of a modal or alert, ensuring that the user remains in the current position until the specific action is completed.
+```js
+    document.addEventListener('DOMContentLoaded', () => {
+    
+        const scrollFlow = new ScrollFlow();    
+    
+        scrollFlow.start();
+
+        //Using the stop() method to stop the scroll when reaching the third section
+        scrollFlow.onChangeSection((direction, currentIndex, targetIndex) => {
+            if(targetIndex === 2) {
+                scrollFlow.stop();
+            }
+        });
+
+    });
+```
+<br>
+
+#### <em>`allow()`</em>
+This method allows you to reactivate the navigation flow, both vertically and horizontally, after it has been interrupted. This is especially useful in cases where the navigation flow was deliberately paused, whether to perform a specific action or to prevent accidental page movement. By calling this method, navigation is resumed smoothly and continuously, ensuring a seamless and uninterrupted user experience.
+```js
+    document.addEventListener('DOMContentLoaded', () => {
+    
+        const scrollFlow = new ScrollFlow();    
+    
+        scrollFlow.start();
+
+        //Using the stop() method to stop the scroll when reaching the third section
+        //start it again after 5 seconds
+        scrollFlow.onChangeSection((direction, currentIndex, targetIndex) => {
+            if(targetIndex === 2) {
+                scrollFlow.stop();
+
+                setTimeout(() => {
+                    scrollFlow.allow();
+                }, 5000);
+            }
+        });
+
+    });
+```
+<br>
+
+#### <em>`getCurrentIndex()`</em>
+This method returns the index of the currently displayed section.
+```js
+    document.addEventListener('DOMContentLoaded', () => {
+    
+        const scrollFlow = new ScrollFlow();    
+    
+        scrollFlow.start();
+
+        window.addEventListener('wheel', () => {
+
+            const currentSection = scrollFlow.getCurrentIndex();
+
+            if (currentSection === 0) {
+                console.log('first section');
+            }
+        });
+    });
+```
+
+<br>
+
+#### <em>`goToSection(index)`</em>
+The `goToSection(index)` method allows you to navigate directly to a specific section, identified by the index passed as a parameter. This method is particularly useful for creating navigation links or buttons that let the user jump directly to different sections without having to scroll manually.
+```js
+    document.addEventListener('DOMContentLoaded', () => {
+    
+        const scrollFlow = new ScrollFlow();    
+    
+        scrollFlow.start();
+
+        //When the user reaches the last section, stop the scroll and start the first one after 5 seconds
+        scrollFlow.onChangeSection((direction, currentIndex, targetIndex) => {
+            if (targetIndex === 5){
+                scrollFlow.stop();
+
+                setTimeout(() => {
+                    scrollFlow.goToSection(0);
+            }, 5000);
+            }
+        });
+    });
+```
+
+<br>
+
+# Support
+**Chat support for Patreon members of  <a href="https://www.patreon.com/MatheCreative" target="_blank">Mathe. Creative</a>**
+
+For help or support, feel free to open an issue on the project's GitHub or contact the maintainers directly at contact@scrollflowjs.com.
+
+<br>
+
+# License
+
+The MIT License.
