@@ -1,0 +1,43 @@
+# ignore OS generated files
+ehthumbs.db
+Thumbs.db
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# ignore Editor files
+*.sublime-project
+*.sublime-workspace
+*.komodoproject
+_ide_helper.php
+/.idea
+/.vscode
+
+# Eclipse project files
+.buildpath
+.project
+.settings/
+
+# Ignore cache
+.cache/
+
+# Ignore user created files :)
+*.bak
+*.orig
+
+#Laravel Default
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
+.env
+.env.backup
+.phpunit.result.cache
+docker-compose.override.yml
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
