@@ -11,4 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
     fade: "content",
     speed: 900,
   });
+
+  scrollFlow.onChange((direction, currentIndex, targetIndex) => {
+    console.log(direction, currentIndex, targetIndex);
+  });
 });

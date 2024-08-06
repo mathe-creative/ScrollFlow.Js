@@ -31,7 +31,7 @@ class ScrollFlow {
     this.fade = 'none';
     this.speed = 900;
     
-    this.sectionManager = new SectionManager(this.sfwrapper!, this.sections, this.horizontal, this.isMobile, this.onChange.bind(this));
+    this.sectionManager = new SectionManager(this.sfwrapper!, this.sections, this.horizontal, this.isMobile, this.onSectionChange.bind(this));
     this.onChangeCallback = null;
   }
 
@@ -127,7 +127,7 @@ class ScrollFlow {
     this.fade = config.fade || defaultOptions.fade || 'none';
     this.speed = config.speed || defaultOptions.speed || 900;
 
-    this.sectionManager = new SectionManager(this.sfwrapper!, this.sections, this.horizontal, this.isMobile, this.onChange.bind(this));
+    this.sectionManager = new SectionManager(this.sfwrapper!, this.sections, this.horizontal, this.isMobile, this.onSectionChange.bind(this));
 
     if (this.paginate) {
       this.handlePaginate();
@@ -150,7 +150,7 @@ class ScrollFlow {
     this.sectionManager!.startScroll();
   }
 
-  public onChangeSection(callback?: (direction: string, currentIndex: number, targetIndex: number) => void) {
+  public onChange(callback?: (direction: string, currentIndex: number, targetIndex: number) => void) {
     if (callback) {
       this.onChangeCallback = callback;
       return;      
@@ -172,7 +172,7 @@ class ScrollFlow {
     this.sectionManager!.jumpToSection(index);
   }
 
-  private onChange(direction: string, currentIndex: number, targetIndex: number) {
+  private onSectionChange(direction: string, currentIndex: number, targetIndex: number) {
     if (this.onChangeCallback) {
       this.onChangeCallback(direction, currentIndex, targetIndex);
     }

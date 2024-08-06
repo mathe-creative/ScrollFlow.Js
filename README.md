@@ -212,7 +212,7 @@ This method is responsible for starting ScrollFlow, activating the features and 
 
 <br>
 
-#### <em>`onChangeSection()`</em>
+#### <em>`onChange()`</em>
 This method is a listener that allows you to execute specific actions whenever a new section is reached while scrolling. It can be very useful for adding dynamic functionalities that depend on the current section the user is viewing. For example, you might want to change the content of a menu, update a progress indicator, or trigger specific animations when the user reaches a certain part of the page.
 
 We can use it with a callback to access the scroll direction (next or previous), the starting index and the destination index, or just listen for section changes:
@@ -224,12 +224,12 @@ We can use it with a callback to access the scroll direction (next or previous),
         scrollFlow.start();
 
         // Example of using onChange callback
-        scrollFlow.onChangeSection((direction, currentIndex, targetIndex) => {
+        scrollFlow.onChange((direction, currentIndex, targetIndex) => {
             console.log(direction, currentIndex, targetIndex);
         });
 
-        // Example of using onChangeSection without callback
-        scrollFlow.onChangeSection(() => {
+        // Example of using onChange without callback
+        scrollFlow.onChange(() => {
             console.log('section changed');
         })
     });
@@ -246,7 +246,7 @@ This method allows you to interrupt the page's navigation flow. When called, scr
         scrollFlow.start();
 
         //Using the stop() method to stop the scroll when reaching the third section
-        scrollFlow.onChangeSection((direction, currentIndex, targetIndex) => {
+        scrollFlow.onChange((direction, currentIndex, targetIndex) => {
             if(targetIndex === 2) {
                 scrollFlow.stop();
             }
@@ -267,7 +267,7 @@ This method allows you to reactivate the navigation flow, both vertically and ho
 
         //Using the stop() method to stop the scroll when reaching the third section
         //start it again after 5 seconds
-        scrollFlow.onChangeSection((direction, currentIndex, targetIndex) => {
+        scrollFlow.onChange((direction, currentIndex, targetIndex) => {
             if(targetIndex === 2) {
                 scrollFlow.stop();
 
@@ -313,7 +313,7 @@ The `goToSection(index)` method allows you to navigate directly to a specific se
         scrollFlow.start();
 
         //When the user reaches the last section, stop the scroll and start the first one after 5 seconds
-        scrollFlow.onChangeSection((direction, currentIndex, targetIndex) => {
+        scrollFlow.onChange((direction, currentIndex, targetIndex) => {
             if (targetIndex === 5){
                 scrollFlow.stop();
 

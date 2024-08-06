@@ -167,7 +167,7 @@ const d = {
   paginate: !1,
   paginateAxis: "y",
   breakpoint: 1024,
-  fade: "none",
+  fade: "content",
   speed: 900
 };
 class m {
@@ -184,7 +184,7 @@ class m {
     o(this, "isMobile");
     o(this, "sectionManager");
     o(this, "onChangeCallback");
-    this.sf = document.querySelector(".scrollFlow"), this.sfwrapper = document.querySelector(".sf-wrapper"), this.sections = document.querySelectorAll(".sf-section"), this.horizontal = !1, this.paginate = !1, this.paginateAxis = "y", this.breakpoint = 1024, this.isMobile = !1, this.fade = "none", this.speed = 900, this.sectionManager = new p(this.sfwrapper, this.sections, this.horizontal, this.isMobile, this.onChange.bind(this)), this.onChangeCallback = null;
+    this.sf = document.querySelector(".scrollFlow"), this.sfwrapper = document.querySelector(".sf-wrapper"), this.sections = document.querySelectorAll(".sf-section"), this.horizontal = !1, this.paginate = !1, this.paginateAxis = "y", this.breakpoint = 1024, this.isMobile = !1, this.fade = "content", this.speed = 900, this.sectionManager = new p(this.sfwrapper, this.sections, this.horizontal, this.isMobile, this.onSectionChange.bind(this)), this.onChangeCallback = null;
   }
   applyFade() {
     this.sf && (this.sf.classList.remove("fade", "fade-content"), this.fade === "auto" ? this.sf.classList.add("fade") : this.fade === "content" && this.sf.classList.add("fade-content"));
@@ -235,7 +235,7 @@ class m {
       ...d,
       ...t
     };
-    this.horizontal = e.horizontal || ((s = this.sf) == null ? void 0 : s.classList.contains("horizontal")) || !1, this.paginate = e.paginate || ((i = this.sf) == null ? void 0 : i.classList.contains("paginate")) || !1, this.paginateAxis = e.paginateAxis || "y", this.breakpoint = e.breakpoint || 1024, this.isMobile = S(this.breakpoint), this.fade = e.fade || d.fade || "none", this.speed = e.speed || d.speed || 900, this.sectionManager = new p(this.sfwrapper, this.sections, this.horizontal, this.isMobile, this.onChange.bind(this)), this.paginate && this.handlePaginate(), this.fade !== "none" && this.applyFade(), this.applyTransition(), this.initializeSections(), this.setupEventListeners();
+    this.horizontal = e.horizontal || ((s = this.sf) == null ? void 0 : s.classList.contains("horizontal")) || !1, this.paginate = e.paginate || ((i = this.sf) == null ? void 0 : i.classList.contains("paginate")) || !1, this.paginateAxis = e.paginateAxis || "y", this.breakpoint = e.breakpoint || 1024, this.isMobile = S(this.breakpoint), this.fade = e.fade || d.fade || "content", this.speed = e.speed || d.speed || 900, this.sectionManager = new p(this.sfwrapper, this.sections, this.horizontal, this.isMobile, this.onSectionChange.bind(this)), this.paginate && this.handlePaginate(), this.fade !== "none" && this.applyFade(), this.applyTransition(), this.initializeSections(), this.setupEventListeners();
   }
   stop() {
     this.sectionManager.stopScroll();
@@ -243,7 +243,7 @@ class m {
   allow() {
     this.sectionManager.startScroll();
   }
-  onChangeSection(t) {
+  onChange(t) {
     if (t) {
       this.onChangeCallback = t;
       return;
@@ -260,7 +260,7 @@ class m {
     }
     this.sectionManager.jumpToSection(t);
   }
-  onChange(t, e, s) {
+  onSectionChange(t, e, s) {
     this.onChangeCallback && this.onChangeCallback(t, e, s);
   }
 }
