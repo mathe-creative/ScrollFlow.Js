@@ -1,9 +1,9 @@
 // ScrollFlow.ts
-
+import "./styles.css";
 import { SectionManager } from './SectionManager.js';
 import { PaginationManager } from './PaginationManager.js';
 import { isMobileDevice } from './Utils.js';
-import { ScrollFlowOptions, defaultOptions } from './Options.js';
+import { ScrollFlowOptions } from './Options.js';
 
 class ScrollFlow {
   private sf: HTMLElement | null;
@@ -13,7 +13,7 @@ class ScrollFlow {
   private paginate: boolean;
   private paginateAxis: 'x' | 'y';
   private breakpoint: number;
-  private fade: 'auto' | 'content' | 'none';
+  private fade: 'all' | 'content' | 'none';
   private speed: number;
   private isMobile: boolean;
   private sectionManager: SectionManager | null;
@@ -38,7 +38,7 @@ class ScrollFlow {
   private applyFade() {
     if (this.sf) {
       this.sf.classList.remove('fade', 'fade-content');
-      if (this.fade === 'auto') {
+      if (this.fade === 'all') {
         this.sf.classList.add('fade');
       } else if (this.fade === 'content') {
         this.sf.classList.add('fade-content');
@@ -75,12 +75,13 @@ class ScrollFlow {
         return;
       }
 
+      el.style.display = "none";
+
       if (this.horizontal) {
         el.style.transform = "translateX(100%)";
         return;
       }
       
-      el.style.display = "none";
       el.style.transform = "translateY(100%)";
     });
   }
@@ -115,8 +116,8 @@ class ScrollFlow {
     }
   }
 
-  public start(options?: ScrollFlowOptions) {
-    const config = { ...defaultOptions, ...options };
+  public init(options?: ScrollFlowOptions.Options) {
+    const config = { ...ScrollFlowOptions.defaultOptions, ...options };
 
     // Merge options with class-based settings
     this.horizontal = config.horizontal || this.sf?.classList.contains("horizontal") || false;
@@ -124,8 +125,8 @@ class ScrollFlow {
     this.paginateAxis = config.paginateAxis || 'y';
     this.breakpoint = config.breakpoint || 1024;
     this.isMobile = isMobileDevice(this.breakpoint);
-    this.fade = config.fade || defaultOptions.fade || 'none';
-    this.speed = config.speed || defaultOptions.speed || 900;
+    this.fade = config.fade || ScrollFlowOptions.defaultOptions.fade || 'none';
+    this.speed = config.speed || ScrollFlowOptions.defaultOptions.speed || 900;
 
     this.sectionManager = new SectionManager(this.sfwrapper!, this.sections, this.horizontal, this.isMobile, this.onSectionChange.bind(this));
 

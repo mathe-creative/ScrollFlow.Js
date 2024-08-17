@@ -46,8 +46,8 @@ class p {
       t = l.touches[0].clientX, e = l.touches[0].clientY;
     }), this.sfwrapper && this.sfwrapper.addEventListener("touchend", (l) => {
       s = l.changedTouches[0].clientX, i = l.changedTouches[0].clientY;
-      const n = document.querySelector(".sf-section-active"), r = Array.prototype.indexOf.call(this.sections, n), h = s - t, f = i - e;
-      (Math.abs(h) > a || Math.abs(f) > a) && (Math.abs(h) > Math.abs(f) ? this.scrollDirection = h > 0 ? "prev" : "next" : this.scrollDirection = f > 0 ? "prev" : "next", this.allowScroll && this.handleSectionActiveTranslate(this.scrollDirection, n, this.sections[r + 1], r));
+      const n = document.querySelector(".sf-section-active"), r = Array.prototype.indexOf.call(this.sections, n), h = s - t, d = i - e;
+      (Math.abs(h) > a || Math.abs(d) > a) && (Math.abs(h) > Math.abs(d) ? this.scrollDirection = h > 0 ? "prev" : "next" : this.scrollDirection = d > 0 ? "prev" : "next", this.allowScroll && this.handleSectionActiveTranslate(this.scrollDirection, n, this.sections[r + 1], r));
     });
   }
   setupDesktopEvents() {
@@ -162,14 +162,17 @@ class v {
 function S(c = 1024) {
   return window.innerWidth < c;
 }
-const d = {
-  horizontal: !1,
-  paginate: !1,
-  paginateAxis: "y",
-  breakpoint: 1024,
-  fade: "content",
-  speed: 900
-};
+var f;
+((c) => {
+  c.defaultOptions = {
+    horizontal: !1,
+    paginate: !1,
+    paginateAxis: "y",
+    breakpoint: 1024,
+    fade: "none",
+    speed: 900
+  };
+})(f || (f = {}));
 class m {
   constructor() {
     o(this, "sf");
@@ -187,7 +190,7 @@ class m {
     this.sf = document.querySelector(".scrollFlow"), this.sfwrapper = document.querySelector(".sf-wrapper"), this.sections = document.querySelectorAll(".sf-section"), this.horizontal = !1, this.paginate = !1, this.paginateAxis = "y", this.breakpoint = 1024, this.isMobile = !1, this.fade = "content", this.speed = 900, this.sectionManager = new p(this.sfwrapper, this.sections, this.horizontal, this.isMobile, this.onSectionChange.bind(this)), this.onChangeCallback = null;
   }
   applyFade() {
-    this.sf && (this.sf.classList.remove("fade", "fade-content"), this.fade === "auto" ? this.sf.classList.add("fade") : this.fade === "content" && this.sf.classList.add("fade-content"));
+    this.sf && (this.sf.classList.remove("fade", "fade-content"), this.fade === "all" ? this.sf.classList.add("fade") : this.fade === "content" && this.sf.classList.add("fade-content"));
   }
   applyTransition() {
     const t = document.createElement("style");
@@ -206,11 +209,11 @@ class m {
         t.classList.add("is-first");
         return;
       }
-      if (this.horizontal) {
+      if (t.style.display = "none", this.horizontal) {
         t.style.transform = "translateX(100%)";
         return;
       }
-      t.style.display = "none", t.style.transform = "translateY(100%)";
+      t.style.transform = "translateY(100%)";
     });
   }
   setupEventListeners() {
@@ -232,10 +235,10 @@ class m {
   start(t) {
     var s, i;
     const e = {
-      ...d,
+      ...f.defaultOptions,
       ...t
     };
-    this.horizontal = e.horizontal || ((s = this.sf) == null ? void 0 : s.classList.contains("horizontal")) || !1, this.paginate = e.paginate || ((i = this.sf) == null ? void 0 : i.classList.contains("paginate")) || !1, this.paginateAxis = e.paginateAxis || "y", this.breakpoint = e.breakpoint || 1024, this.isMobile = S(this.breakpoint), this.fade = e.fade || d.fade || "content", this.speed = e.speed || d.speed || 900, this.sectionManager = new p(this.sfwrapper, this.sections, this.horizontal, this.isMobile, this.onSectionChange.bind(this)), this.paginate && this.handlePaginate(), this.fade !== "none" && this.applyFade(), this.applyTransition(), this.initializeSections(), this.setupEventListeners();
+    this.horizontal = e.horizontal || ((s = this.sf) == null ? void 0 : s.classList.contains("horizontal")) || !1, this.paginate = e.paginate || ((i = this.sf) == null ? void 0 : i.classList.contains("paginate")) || !1, this.paginateAxis = e.paginateAxis || "y", this.breakpoint = e.breakpoint || 1024, this.isMobile = S(this.breakpoint), this.fade = e.fade || f.defaultOptions.fade || "none", this.speed = e.speed || f.defaultOptions.speed || 900, this.sectionManager = new p(this.sfwrapper, this.sections, this.horizontal, this.isMobile, this.onSectionChange.bind(this)), this.paginate && this.handlePaginate(), this.fade !== "none" && this.applyFade(), this.applyTransition(), this.initializeSections(), this.setupEventListeners();
   }
   stop() {
     this.sectionManager.stopScroll();

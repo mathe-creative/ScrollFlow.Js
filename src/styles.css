@@ -5,7 +5,8 @@ body {
 
 .scrollFlow {
     position: relative;
-    height: 100svh;
+    height: 100dvh;
+    width: 100vwd;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -18,9 +19,9 @@ body {
 }
 
 .sf-wrapper {
-    height: 100svh;
+    height: 100%;
+    width: 100%;
     overflow: hidden;
-    width: 100svw;
     position: fixed;
     top: 0;
     left: 0;

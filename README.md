@@ -41,7 +41,7 @@ import 'scrollflow/dist/style.css';
 
 window.addEventListener('DOMContentLoaded', () => {
   const scrollFlow = new ScrollFlow();
-  scrollFlow.start();
+  scrollFlow.init();
 });
 ```
 > Remembering that your script that calls this .js file must have the type module:
@@ -67,7 +67,7 @@ This will create the global variable `ScrollFlow` and you can use it like this:
 <script>
     window.addEventListener('DOMContentLoaded', () => {
       const scrollflow = new ScrollFlow();
-      scrollflow.start();
+      scrollflow.init();
     });
 </script>
 ```
@@ -97,7 +97,7 @@ HTML must maintain a standard structure that includes the following tags:
 All the functionalities of ScrollFlow.Js are highly customizable to meet the specific needs of each project:
 
 ### Vertical/Horizontal Support
-By default, the overlay flow occurs on the y-axis, that is, vertical. To change to the x-axis, it is necessary to assign the "horizontal" class to the "scrollflow" element or set the `horizontal` property in the start() function. Just look:
+By default, the overlay flow occurs on the y-axis, that is, vertical. To change to the x-axis, it is necessary to assign the "horizontal" class to the "scrollflow" element or set the `horizontal` property in the init() function. Just look:
 
 ```html
 <div class="scrollflow horizontal">
@@ -112,7 +112,7 @@ By default, the overlay flow occurs on the y-axis, that is, vertical. To change 
 ```js
   const scrollFlow = new ScrollFlow();
 
-  scrollFlow.start({
+  scrollFlow.init({
     horizontal: true,
   });
 ```
@@ -146,11 +146,11 @@ The "Fade Content" applies a soft entry to all elements of a section after the f
   </div>
 </div>
 ```
-If you prefer, you can also set the `fade` property in start():
+If you prefer, you can also set the `fade` property in init():
 ```js
   const scrollFlow = new ScrollFlow();
 
-  scrollFlow.start({
+  scrollFlow.init({
     fade: 'content', //could be 'auto', 'content' or 'none'
   });
 ```
@@ -158,12 +158,12 @@ If you prefer, you can also set the `fade` property in start():
 <br>
 
 ### Pagination and Anchor Links
-The operation is simple: direct links to specific sections. With `paginate` property, we enable bullets that float on the screen according to the orientation of the overlapping flow. To enable, just set it in the start() function:
+The operation is simple: direct links to specific sections. With `paginate` property, we enable bullets that float on the screen according to the orientation of the overlapping flow. To enable, just set it in the init() function:
 
 ```js
   const scrollFlow = new ScrollFlow();
 
-  scrollFlow.start({
+  scrollFlow.init({
     paginate: true,
     paginateAxis: 'y', // If you prefer, you can also change the position of the bullets using paginateAxis as 'y' or 'x'.
   });
@@ -175,7 +175,7 @@ To create links to other pages and specific sections, we use the "sf-trigger" cl
 <!-- contact page -->
   ...
   
-    <div class="sf-trigger" data-index="2">
+    <div class="sf-trigger" data-sf-index="2">
       <a href="/">Go to the third section of the home</a>
     </div>
   
@@ -191,7 +191,7 @@ To create links to other pages and specific sections, we use the "sf-trigger" cl
 | `horizontal` | boolean   | `false` |  Navigation direction  |
 | `paginate` | boolean   | `false` | Bullets that float on the screen that act as triggers for the sections  |
 | `paginateAxis` | 'y', 'x'   | `'y'` | Bullets position on the screen  |
-| `fade` | 'auto', 'content', 'none' | `'content'` |  Sections or section content entrance  |
+| `fade` | 'all', 'content', 'none' | `'none'` |  Sections or section content entrance  |
 | `breakpoint` | number | `1024` |  Breakpoint that informs what the page break is to change mobile x desktop interactions  |
 | `speed` | number | `900` |  Transition time, in milliseconds, for the overlapping interaction  |
 
@@ -199,14 +199,14 @@ To create links to other pages and specific sections, we use the "sf-trigger" cl
 
 ## Instance Methods 
 
-#### <em>`start()`</em>
+#### <em>`init()`</em>
 This method is responsible for starting ScrollFlow, activating the features and applying the defined settings.
 ```js
     document.addEventListener('DOMContentLoaded', () => {
     
         const scrollFlow = new ScrollFlow();    
     
-        scrollFlow.start();  // If necessary, include the properties here
+        scrollFlow.init();  // If necessary, include the properties here
     });
 ```
 
@@ -221,7 +221,7 @@ We can use it with a callback to access the scroll direction (next or previous),
     
         const scrollFlow = new ScrollFlow();    
     
-        scrollFlow.start();
+        scrollFlow.init();
 
         // Example of using onChange callback
         scrollFlow.onChange((direction, currentIndex, targetIndex) => {
@@ -243,7 +243,7 @@ This method allows you to interrupt the page's navigation flow. When called, scr
     
         const scrollFlow = new ScrollFlow();    
     
-        scrollFlow.start();
+        scrollFlow.init();
 
         //Using the stop() method to stop the scroll when reaching the third section
         scrollFlow.onChange((direction, currentIndex, targetIndex) => {
@@ -263,7 +263,7 @@ This method allows you to reactivate the navigation flow, both vertically and ho
     
         const scrollFlow = new ScrollFlow();    
     
-        scrollFlow.start();
+        scrollFlow.init();
 
         //Using the stop() method to stop the scroll when reaching the third section
         //start it again after 5 seconds
@@ -288,7 +288,7 @@ This method returns the index of the currently displayed section.
     
         const scrollFlow = new ScrollFlow();    
     
-        scrollFlow.start();
+        scrollFlow.init();
 
         window.addEventListener('wheel', () => {
 
@@ -310,7 +310,7 @@ The `goToSection(index)` method allows you to navigate directly to a specific se
     
         const scrollFlow = new ScrollFlow();    
     
-        scrollFlow.start();
+        scrollFlow.init();
 
         //When the user reaches the last section, stop the scroll and start the first one after 5 seconds
         scrollFlow.onChange((direction, currentIndex, targetIndex) => {

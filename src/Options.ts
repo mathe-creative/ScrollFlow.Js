@@ -1,20 +1,23 @@
 // Options.ts
 
-export interface ScrollFlowOptions {
+export namespace ScrollFlowOptions {
+  export interface Options {
     horizontal?: boolean;
     paginate?: boolean;
     paginateAxis?: 'y' | 'x';
     breakpoint?: number;
-    fade?: 'auto' | 'content' | 'none';
+    fade?: 'all' | 'content' | 'none';
     speed?: number; 
   }
-  
-  export const defaultOptions: ScrollFlowOptions = {
+
+  export const defaultOptions: Options = {
     horizontal: false,
     paginate: false,
     paginateAxis: 'y',
     breakpoint: 1024,
-    fade: 'content',
+    fade: 'none',
     speed: 900,
   };
+}
+
   

@@ -1,15 +1,13 @@
-import "./styles.css";
 import ScrollFlow from "./ScrollFlow";
 
 document.addEventListener("DOMContentLoaded", () => {
   const scrollFlow = new ScrollFlow();
 
-  scrollFlow.start({
-    horizontal: false,
-    paginate: true,
-    breakpoint: 769,
+  scrollFlow.init({
     fade: "content",
-    speed: 900,
+    speed: 1000,
+    breakpoint: 769,
+    paginate: true,
   });
 
   scrollFlow.onChange((direction, currentIndex, targetIndex) => {
