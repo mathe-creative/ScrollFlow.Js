@@ -1,6 +1,6 @@
 {
   "name": "scrollflow",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "dist/scrollflow.umd.js",
   "module": "dist/scrollflow.es.js",
   "types": "dist/types/index.d.ts",
