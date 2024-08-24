@@ -2,7 +2,7 @@ var g = Object.defineProperty;
 var u = (c, t, e) => t in c ? g(c, t, { enumerable: !0, configurable: !0, writable: !0, value: e }) : c[t] = e;
 var o = (c, t, e) => u(c, typeof t != "symbol" ? t + "" : t, e);
 class p {
-  constructor(t, e, s, i, a = null) {
+  constructor(t, e, i, s, a = null) {
     o(this, "sfwrapper");
     o(this, "sections");
     o(this, "horizontal");
@@ -13,7 +13,7 @@ class p {
     o(this, "activeIndex");
     o(this, "isNavigating");
     o(this, "debounceTimeout");
-    this.sfwrapper = t, this.sections = e, this.horizontal = s, this.isMobile = i, this.allowScroll = !0, this.scrollDirection = "next", this.onChangeCallback = a, this.activeIndex = 0, this.isNavigating = !1, this.debounceTimeout = null;
+    this.sfwrapper = t, this.sections = e, this.horizontal = i, this.isMobile = s, this.allowScroll = !0, this.scrollDirection = "next", this.onChangeCallback = a, this.activeIndex = 0, this.isNavigating = !1, this.debounceTimeout = null;
   }
   getCurrentIndex() {
     return this.activeIndex;
@@ -30,100 +30,100 @@ class p {
   jumpToSection(t) {
     if (this.isNavigating || t < 0 || t >= this.sections.length)
       return;
-    const e = document.querySelector(".sf-section-active"), s = Array.prototype.indexOf.call(this.sections, e);
-    if (t !== s) {
+    const e = document.querySelector(".sf-section-active"), i = Array.prototype.indexOf.call(this.sections, e);
+    if (t !== i) {
       this.isNavigating = !0;
-      const i = t > s ? "next" : "prev", a = this.sections[t];
-      for (let n = s; i === "next" ? n < t : n > t; i === "next" ? n++ : n--)
-        this.handleSectionActiveTranslate(i, this.sections[n], this.sections[n + 1], n);
-      a.classList.add("sf-section-active"), this.activeIndex = t, this.checkContentOverflow(a) ? this.stopScroll() : this.startScroll(), this.debounceOnChange(i, s, t);
+      const s = t > i ? "next" : "prev", a = this.sections[t];
+      for (let n = i; s === "next" ? n < t : n > t; s === "next" ? n++ : n--)
+        this.handleSectionActiveTranslate(s, this.sections[n], this.sections[n + 1], n);
+      a.classList.add("sf-section-active"), this.activeIndex = t, this.checkContentOverflow(a) ? this.stopScroll() : this.startScroll(), this.debounceOnChange(s, i, t);
     }
   }
   setupMobileEvents() {
-    let t = 0, e = 0, s = 0, i = 0;
+    let t = 0, e = 0, i = 0, s = 0;
     const a = 10;
     this.sfwrapper && this.sfwrapper.addEventListener("touchstart", (l) => {
       t = l.touches[0].clientX, e = l.touches[0].clientY;
     }), this.sfwrapper && this.sfwrapper.addEventListener("touchend", (l) => {
-      s = l.changedTouches[0].clientX, i = l.changedTouches[0].clientY;
-      const n = document.querySelector(".sf-section-active"), r = Array.prototype.indexOf.call(this.sections, n), h = s - t, d = i - e;
+      i = l.changedTouches[0].clientX, s = l.changedTouches[0].clientY;
+      const n = document.querySelector(".sf-section-active"), r = Array.prototype.indexOf.call(this.sections, n), h = i - t, d = s - e;
       (Math.abs(h) > a || Math.abs(d) > a) && (Math.abs(h) > Math.abs(d) ? this.scrollDirection = h > 0 ? "prev" : "next" : this.scrollDirection = d > 0 ? "prev" : "next", this.allowScroll && this.handleSectionActiveTranslate(this.scrollDirection, n, this.sections[r + 1], r));
     });
   }
   setupDesktopEvents() {
     this.sections.forEach((t, e) => {
-      t.addEventListener("wheel", (s) => {
+      t.addEventListener("wheel", (i) => {
         if (this.allowScroll) {
-          this.scrollDirection = s.deltaY < 0 ? "prev" : "next";
-          const i = this.scrollDirection === "next" ? this.sections[e + 1] : this.sections[e - 1];
-          i && this.handleSectionActiveTranslate(this.scrollDirection, t, i, e);
+          this.scrollDirection = i.deltaY < 0 ? "prev" : "next";
+          const s = this.scrollDirection === "next" ? this.sections[e + 1] : this.sections[e - 1];
+          s && this.handleSectionActiveTranslate(this.scrollDirection, t, s, e);
         }
       });
     });
   }
-  handleSectionActiveTranslate(t, e, s, i) {
+  handleSectionActiveTranslate(t, e, i, s) {
     this.sections.forEach((r) => {
       r.style.display = "block";
     });
     const a = Array.from(document.querySelectorAll(".sf-trigger"));
-    let l = [], n = t === "prev" ? i - 1 : i + 1;
-    t === "prev" && n < 0 || t === "next" && n >= this.sections.length || (t === "prev" && e ? (this.setActiveSection(e, "prev"), e.classList.contains("is-first") || (this.horizontal ? e.style.transform = "translateX(100%)" : e.style.transform = "translateY(100%)"), l = a.filter((r) => r.getAttribute("data-sf-index") === n.toString()), this.activeIndex = n) : t === "next" && s && (this.setActiveSection(s, "next"), this.horizontal ? s.style.transform = "translateX(0%)" : s.style.transform = "translateY(0%)", l = a.filter((r) => r.getAttribute("data-sf-index") === n.toString()), this.activeIndex = n), l.forEach((r) => {
+    let l = [], n = t === "prev" ? s - 1 : s + 1;
+    t === "prev" && n < 0 || t === "next" && n >= this.sections.length || (t === "prev" && e ? (this.setActiveSection(e, "prev"), e.classList.contains("is-first") || (this.horizontal ? e.style.transform = "translateX(100%)" : e.style.transform = "translateY(100%)"), l = a.filter((r) => r.getAttribute("data-sf-index") === n.toString()), this.activeIndex = n) : t === "next" && i && (this.setActiveSection(i, "next"), this.horizontal ? i.style.transform = "translateX(0%)" : i.style.transform = "translateY(0%)", l = a.filter((r) => r.getAttribute("data-sf-index") === n.toString()), this.activeIndex = n), l.forEach((r) => {
       this.clearAllAndSetThisActive(r);
-    }), this.debounceOnChange(t, i, n));
+    }), this.debounceOnChange(t, s, n));
   }
   setActiveSection(t, e) {
-    if (this.sections.forEach((s) => {
-      s.classList.remove("sf-section-active");
+    if (this.sections.forEach((i) => {
+      i.classList.remove("sf-section-active");
     }), e === "next" && t)
       t.classList.add("sf-section-active"), this.handleOverflowContent(t);
     else if (e === "prev" && t) {
-      const s = t.previousElementSibling;
-      s ? (s.classList.add("sf-section-active"), this.handleOverflowContent(s)) : (t.classList.add("sf-section-active"), this.handleOverflowContent(t));
+      const i = t.previousElementSibling;
+      i ? (i.classList.add("sf-section-active"), this.handleOverflowContent(i)) : (t.classList.add("sf-section-active"), this.handleOverflowContent(t));
     }
   }
   handleOverflowContent(t) {
-    const e = t.scrollWidth > t.clientWidth, s = t.scrollHeight > t.clientHeight;
-    if (!e && !s) {
+    const e = t.scrollWidth > t.clientWidth, i = t.scrollHeight > t.clientHeight;
+    if (!e && !i) {
       t.style.overflow = "hidden";
       return;
     }
-    let i = t.querySelector(".sf-content-overflow");
-    i || (i = document.createElement("div"), i.classList.add("sf-content-overflow"), Array.from(t.childNodes).forEach((n) => {
-      n !== i && i.appendChild(n);
-    }), t.appendChild(i));
-    const a = i.scrollWidth > t.clientWidth, l = i.scrollHeight > t.clientHeight;
-    a ? (i.classList.add("horizontal"), t.style.overflowX = "auto", this.setupHorizontalScroll(t, i)) : (i.classList.remove("horizontal"), t.style.overflowX = "hidden"), l ? (t.style.overflowY = "auto", this.setupVerticalScroll(t, i)) : t.style.overflowY = "hidden";
+    let s = t.querySelector(".sf-content-overflow");
+    s || (s = document.createElement("div"), s.classList.add("sf-content-overflow"), Array.from(t.childNodes).forEach((n) => {
+      n !== s && s.appendChild(n);
+    }), t.appendChild(s));
+    const a = s.scrollWidth > t.clientWidth, l = s.scrollHeight > t.clientHeight;
+    a ? (s.classList.add("horizontal"), t.style.overflowX = "auto", this.setupHorizontalScroll(t, s)) : (s.classList.remove("horizontal"), t.style.overflowX = "hidden"), l ? (t.style.overflowY = "auto", this.setupVerticalScroll(t, s)) : t.style.overflowY = "hidden";
   }
   setupHorizontalScroll(t, e) {
     if (this.isMobile) {
-      let s = 0;
-      t.addEventListener("touchstart", (i) => {
-        s = i.touches[0].clientX;
-      }), t.addEventListener("touchend", (i) => {
+      let i = 0;
+      t.addEventListener("touchstart", (s) => {
+        i = s.touches[0].clientX;
+      }), t.addEventListener("touchend", (s) => {
         this.allowScroll = !1;
-        const l = i.changedTouches[0].clientX - s, n = t.scrollLeft, r = n >= e.clientWidth - (window.innerWidth + 15), h = n <= 15;
+        const l = s.changedTouches[0].clientX - i, n = t.scrollLeft, r = n >= e.clientWidth - (window.innerWidth + 15), h = n <= 15;
         (l > 0 && h || l < 0 && r) && (this.allowScroll = !0);
       });
     } else
-      this.allowScroll = !1, t.addEventListener("wheel", (s) => {
-        const i = e.clientWidth - window.innerWidth - 10, a = t.scrollLeft <= 10;
-        s.deltaY > 0 ? (t.scrollLeft += 35, t.scrollLeft > i && (this.allowScroll = !0)) : (t.scrollLeft -= 35, a && (this.allowScroll = !0));
+      this.allowScroll = !1, t.addEventListener("wheel", (i) => {
+        const s = e.clientWidth - window.innerWidth - 10, a = t.scrollLeft <= 10;
+        i.deltaY > 0 ? (t.scrollLeft += 35, t.scrollLeft > s && (this.allowScroll = !0)) : (t.scrollLeft -= 35, a && (this.allowScroll = !0));
       });
   }
   setupVerticalScroll(t, e) {
     if (this.isMobile) {
-      let s = 0;
-      t.addEventListener("touchstart", (i) => {
-        s = i.touches[0].clientY;
-      }), t.addEventListener("touchend", (i) => {
+      let i = 0;
+      t.addEventListener("touchstart", (s) => {
+        i = s.touches[0].clientY;
+      }), t.addEventListener("touchend", (s) => {
         this.allowScroll = !1;
-        const l = i.changedTouches[0].clientY - s, n = t.scrollTop, r = n >= e.clientHeight - (window.innerHeight + 15), h = n <= 15;
+        const l = s.changedTouches[0].clientY - i, n = t.scrollTop, r = n >= e.clientHeight - (window.innerHeight + 15), h = n <= 15;
         (l > 0 && h || l < 0 && r) && (this.allowScroll = !0);
       });
     } else
-      this.allowScroll = !1, t.addEventListener("wheel", (s) => {
-        const i = t.scrollTop >= e.clientHeight - (window.innerHeight + 15), a = t.scrollTop <= 15;
-        i && s.deltaY > 0 ? this.allowScroll = !0 : s.deltaY < 0 && a && (this.allowScroll = !0);
+      this.allowScroll = !1, t.addEventListener("wheel", (i) => {
+        const s = t.scrollTop >= e.clientHeight - (window.innerHeight + 15), a = t.scrollTop <= 15;
+        s && i.deltaY > 0 ? this.allowScroll = !0 : i.deltaY < 0 && a && (this.allowScroll = !0);
       });
   }
   checkContentOverflow(t) {
@@ -131,27 +131,27 @@ class p {
     if (e)
       return e.clientHeight > t.clientHeight || e.clientWidth > t.clientWidth;
   }
-  debounceOnChange(t, e, s) {
+  debounceOnChange(t, e, i) {
     this.debounceTimeout && clearTimeout(this.debounceTimeout), this.debounceTimeout = window.setTimeout(() => {
-      this.onChangeCallback && this.onChangeCallback(t, e, s), this.isNavigating = !1;
+      this.onChangeCallback && this.onChangeCallback(t, e, i), this.isNavigating = !1;
     }, 500);
   }
   clearAllAndSetThisActive(t) {
-    Array.from(document.querySelectorAll(".sf-trigger")).forEach((s) => s.classList.remove("active")), t.classList.add("active");
+    Array.from(document.querySelectorAll(".sf-trigger")).forEach((i) => i.classList.remove("active")), t.classList.add("active");
   }
 }
 class v {
-  constructor(t, e, s, i) {
+  constructor(t, e, i, s) {
     o(this, "sf");
     o(this, "sections");
     o(this, "horizontal");
     o(this, "paginateAxis");
-    this.sf = t, this.sections = e, this.horizontal = s, this.paginateAxis = i;
+    this.sf = t, this.sections = e, this.horizontal = i, this.paginateAxis = s;
   }
   initializePagination() {
     const t = document.createElement("div");
-    t.classList.add("sf-pagination"), this.sf.appendChild(t), (this.horizontal || this.paginateAxis === "x") && t.classList.add("sf-pagination-horizontal"), this.sections.forEach((e, s) => {
-      t.appendChild(this.createDot(s));
+    t.classList.add("sf-pagination"), this.sf.appendChild(t), (this.horizontal || this.paginateAxis === "x") && t.classList.add("sf-pagination-horizontal"), this.sections.forEach((e, i) => {
+      t.appendChild(this.createDot(i));
     });
   }
   createDot(t) {
@@ -221,9 +221,9 @@ class m {
   }
   startNavigation() {
     if (document.querySelectorAll(".sf-trigger").forEach((e) => {
-      e.addEventListener("click", (s) => {
-        const i = parseInt(e.getAttribute("data-sf-index"), 10);
-        this.sectionManager.jumpToSection(i), sessionStorage.setItem("sf-anchor", i.toString());
+      e.addEventListener("click", (i) => {
+        const s = parseInt(e.getAttribute("data-sf-index"), 10);
+        this.sectionManager.jumpToSection(s), sessionStorage.setItem("sf-anchor", s.toString());
       });
     }), sessionStorage.getItem("sf-anchor")) {
       const e = parseInt(sessionStorage.getItem("sf-anchor"), 10);
@@ -232,13 +232,13 @@ class m {
       }, this.speed);
     }
   }
-  start(t) {
-    var s, i;
+  init(t) {
+    var i, s;
     const e = {
       ...f.defaultOptions,
       ...t
     };
-    this.horizontal = e.horizontal || ((s = this.sf) == null ? void 0 : s.classList.contains("horizontal")) || !1, this.paginate = e.paginate || ((i = this.sf) == null ? void 0 : i.classList.contains("paginate")) || !1, this.paginateAxis = e.paginateAxis || "y", this.breakpoint = e.breakpoint || 1024, this.isMobile = S(this.breakpoint), this.fade = e.fade || f.defaultOptions.fade || "none", this.speed = e.speed || f.defaultOptions.speed || 900, this.sectionManager = new p(this.sfwrapper, this.sections, this.horizontal, this.isMobile, this.onSectionChange.bind(this)), this.paginate && this.handlePaginate(), this.fade !== "none" && this.applyFade(), this.applyTransition(), this.initializeSections(), this.setupEventListeners();
+    this.horizontal = e.horizontal || ((i = this.sf) == null ? void 0 : i.classList.contains("horizontal")) || !1, this.paginate = e.paginate || ((s = this.sf) == null ? void 0 : s.classList.contains("paginate")) || !1, this.paginateAxis = e.paginateAxis || "y", this.breakpoint = e.breakpoint || 1024, this.isMobile = S(this.breakpoint), this.fade = e.fade || f.defaultOptions.fade || "none", this.speed = e.speed || f.defaultOptions.speed || 900, this.sectionManager = new p(this.sfwrapper, this.sections, this.horizontal, this.isMobile, this.onSectionChange.bind(this)), this.paginate && this.handlePaginate(), this.fade !== "none" && this.applyFade(), this.applyTransition(), this.initializeSections(), this.setupEventListeners();
   }
   stop() {
     this.sectionManager.stopScroll();
@@ -263,8 +263,8 @@ class m {
     }
     this.sectionManager.jumpToSection(t);
   }
-  onSectionChange(t, e, s) {
-    this.onChangeCallback && this.onChangeCallback(t, e, s);
+  onSectionChange(t, e, i) {
+    this.onChangeCallback && this.onChangeCallback(t, e, i);
   }
 }
 export {

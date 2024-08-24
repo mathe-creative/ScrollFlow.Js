@@ -116,7 +116,7 @@ class ScrollFlow {
     }
   }
 
-  public start(options?: ScrollFlowOptions.Options) {
+  public init(options?: ScrollFlowOptions.Options) {
     const config = { ...ScrollFlowOptions.defaultOptions, ...options };
 
     // Merge options with class-based settings
