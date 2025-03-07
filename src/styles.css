@@ -3,7 +3,7 @@ body {
     overscroll-behavior: none;
 }
 
-.scrollFlow {
+.scrollflow {
     position: relative;
     height: 100dvh;
     width: 100vwd;
@@ -12,7 +12,7 @@ body {
     justify-content: center;
 }
 
-.scrollFlow.horizontal {
+.scrollflow.horizontal {
     display: flex;
     align-items: end;
     justify-content: center;
@@ -46,22 +46,22 @@ body {
     display: none;
 }
 
-.scrollFlow.fade .sf-section {
+.scrollflow.fade .sf-section {
     opacity: 0;
     transition: opacity .3s ease .3s, transform .4s ease 1s;
 }
 
-.scrollFlow.fade .sf-section.sf-section-active {
+.scrollflow.fade .sf-section.sf-section-active {
     opacity: 1;
     transition: opacity .3s ease .3s, transform .4s ease 0ms;
 }
 
-.scrollFlow.fade-content .sf-section * {
+.scrollflow.fade-content .sf-section * {
     transition: all 0.4s ease;
     opacity: 0;
 }
 
-.scrollFlow.fade-content .sf-section.sf-section-active * {
+.scrollflow.fade-content .sf-section.sf-section-active * {
     transition: all 1s ease;
     transition-delay: 0.7s;
     opacity: 1;

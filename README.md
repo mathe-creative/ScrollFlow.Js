@@ -36,7 +36,7 @@ $ npm install scrollflow
 This way you can initialize Scroll Flow in your file.js like this:
 
 ```js
-import { ScrollFlow } from 'scrollflow';
+import ScrollFlow from 'scrollflow';
 import 'scrollflow/dist/style.css';
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -151,7 +151,7 @@ If you prefer, you can also set the `fade` property in init():
   const scrollFlow = new ScrollFlow();
 
   scrollFlow.init({
-    fade: 'content', //could be 'auto', 'content' or 'none'
+    fade: 'content', //could be 'all', 'content' or 'none'
   });
 ```
 

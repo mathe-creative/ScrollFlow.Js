@@ -20,7 +20,7 @@ class ScrollFlow {
   private onChangeCallback: ((direction: string, currentIndex: number, targetIndex: number) => void) | null;
 
   constructor() {
-    this.sf = document.querySelector(".scrollFlow");
+    this.sf = document.querySelector(".scrollflow");
     this.sfwrapper = document.querySelector(".sf-wrapper");
     this.sections = document.querySelectorAll(".sf-section");
     this.horizontal = false;
@@ -49,7 +49,7 @@ class ScrollFlow {
   private applyTransition() {
     const sectionStyle = document.createElement('style');
     sectionStyle.innerHTML = `
-      .scrollFlow .sf-section {
+      .scrollflow .sf-section {
         transition: transform ${this.speed}ms ease;
       }
     `;
@@ -71,7 +71,8 @@ class ScrollFlow {
 
       if (index === 0) {
 
-        el.classList.add("is-first");        
+        el.classList.add("is-first");
+        el.classList.add("sf-section-active");        
         return;
       }
       
