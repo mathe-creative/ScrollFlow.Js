@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScrollFlow</title>
+
+    <style>
+        .sf-section .div-example {
+            width: 94%;
+            height: 300px;
+            background-color: white;
+            box-shadow: 4px 8px 16px 1px rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto;
+            font-size: 40px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .sf-section .co-example {
+            font-size: 40px;
+            background-color: white;
+            box-shadow: 4px 8px 16px 1px rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            height: fit-content;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            width: 94svw;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .sf-section .link {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .sf-section .link a {
+            font-size: 20px;
+            margin-top: 10px;
+        }
+
+        .sf-content-overflow{
+            margin: 20px auto;
+        }
+    </style>
+</head>
+
+<body style="margin: 0;">
+    <div class="scrollflow">
+        <div class="sf-wrapper">
+            <section class="sf-section" style="background-color: red;">
+                <div class="div-example">
+                    <span>1</span>
+                </div>
+            </section>
+            <section class="sf-section" style="background-color: yellow;">
+                <div class="div-example link">
+                    <span style="display: block;">2</span>
+                    <a href="page-example.html">
+                        <span>Go to another page</span>
+                    </a>
+                </div>
+            </section>
+            <section class="sf-section" style="background-color: blue;">
+                <div class="div-example">
+                    <span>3</span>
+                </div>
+            </section>
+            <section class="sf-section" style="background-color: orange;">
+                <div class="content" style="flex-direction: row; justify-content: start;">
+                    <div class="co-example">
+                        <div style="height: 400px;  width: 100px; background: black; border-radius: 0 0 10px 10px;"></div>
+                        <div style="height: 1500px; width: 100px; display: flex; flex-direction: column; justify-content: center;">
+                            <span>4</span>
+                        </div>
+                        <div style="height: 400px;  width: 100px; background: black; border-radius: 10px 10px 0 0;"></div>
+                    </div>
+                </div>
+            </section>
+            <section class="sf-section" style="background-color: pink;">
+                <div class="div-example">
+                    <span>5</span>
+                </div>
+            </section>
+            <section class="sf-section" style="background-color: white;">
+                <div class="div-example">
+                    <span>6</span>
+                </div>
+            </section>
+            <section class="sf-section" style="background-color: purple;">
+                <div class="div-example">
+                    <span>7</span>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script type="module" src="/src/index.ts"></script>
+</body>
+
+</html>
