@@ -1,7 +1,13 @@
 var g = Object.defineProperty;
-var u = (c, t, e) => t in c ? g(c, t, { enumerable: !0, configurable: !0, writable: !0, value: e }) : c[t] = e;
-var o = (c, t, e) => u(c, typeof t != "symbol" ? t + "" : t, e);
-class p {
+var v = (r, t, e) => t in r ? g(r, t, { enumerable: !0, configurable: !0, writable: !0, value: e }) : r[t] = e;
+var o = (r, t, e) => v(r, typeof t != "symbol" ? t + "" : t, e);
+function S(r = 1024) {
+  return window.innerWidth < r;
+}
+function p(r, t) {
+  return r.classList.contains("sf-autoflow-left") ? "translateX(-100%)" : r.classList.contains("sf-autoflow-top") ? "translateY(-100%)" : r.classList.contains("sf-autoflow-right") ? "translateX(100%)" : r.classList.contains("sf-autoflow-bottom") ? "translateY(100%)" : t ? "translateX(100%)" : "translateY(100%)";
+}
+class u {
   constructor(t, e, s, i, a = null) {
     o(this, "sfwrapper");
     o(this, "sections");
@@ -46,8 +52,8 @@ class p {
       t = l.touches[0].clientX, e = l.touches[0].clientY;
     }), this.sfwrapper && this.sfwrapper.addEventListener("touchend", (l) => {
       s = l.changedTouches[0].clientX, i = l.changedTouches[0].clientY;
-      const n = document.querySelector(".sf-section-active"), r = Array.prototype.indexOf.call(this.sections, n), h = s - t, d = i - e;
-      (Math.abs(h) > a || Math.abs(d) > a) && (Math.abs(h) > Math.abs(d) ? this.scrollDirection = h > 0 ? "prev" : "next" : this.scrollDirection = d > 0 ? "prev" : "next", this.allowScroll && this.handleSectionActiveTranslate(this.scrollDirection, n, this.sections[r + 1], r));
+      const n = document.querySelector(".sf-section-active"), c = Array.prototype.indexOf.call(this.sections, n), h = s - t, d = i - e;
+      (Math.abs(h) > a || Math.abs(d) > a) && (Math.abs(h) > Math.abs(d) ? this.scrollDirection = h > 0 ? "prev" : "next" : this.scrollDirection = d > 0 ? "prev" : "next", this.allowScroll && this.handleSectionActiveTranslate(this.scrollDirection, n, this.sections[c + 1], c));
     });
   }
   setupDesktopEvents() {
@@ -62,14 +68,23 @@ class p {
     });
   }
   handleSectionActiveTranslate(t, e, s, i) {
-    this.sections.forEach((r) => {
-      r.style.display = "block";
+    this.sections.forEach((c) => {
+      c.style.display = "block";
     });
     const a = Array.from(document.querySelectorAll(".sf-trigger"));
     let l = [], n = t === "prev" ? i - 1 : i + 1;
-    t === "prev" && n < 0 || t === "next" && n >= this.sections.length || (t === "prev" && e ? (this.setActiveSection(e, "prev"), e.classList.contains("is-first") || (this.horizontal ? e.style.transform = "translateX(100%)" : e.style.transform = "translateY(100%)"), l = a.filter((r) => r.getAttribute("data-sf-index") === n.toString()), this.activeIndex = n) : t === "next" && s && (this.setActiveSection(s, "next"), this.horizontal ? s.style.transform = "translateX(0%)" : s.style.transform = "translateY(0%)", l = a.filter((r) => r.getAttribute("data-sf-index") === n.toString()), this.activeIndex = n), l.forEach((r) => {
-      this.clearAllAndSetThisActive(r);
-    }), this.debounceOnChange(t, i, n));
+    if (!(t === "prev" && n < 0 || t === "next" && n >= this.sections.length)) {
+      if (t === "prev" && e)
+        this.setActiveSection(e, "prev"), e.classList.contains("is-first") || (e.style.transform = p(e, this.horizontal)), l = a.filter((c) => c.getAttribute("data-sf-index") === n.toString()), this.activeIndex = n;
+      else if (t === "next" && s) {
+        this.setActiveSection(s, "next");
+        const c = s.style.transform.split("(")[0];
+        s.style.transform = `${c}(0%)`, l = a.filter((h) => h.getAttribute("data-sf-index") === n.toString()), this.activeIndex = n;
+      }
+      l.forEach((c) => {
+        this.clearAllAndSetThisActive(c);
+      }), this.debounceOnChange(t, i, n);
+    }
   }
   setActiveSection(t, e) {
     if (this.sections.forEach((s) => {
@@ -101,8 +116,8 @@ class p {
         s = i.touches[0].clientX;
       }), t.addEventListener("touchend", (i) => {
         this.allowScroll = !1;
-        const l = i.changedTouches[0].clientX - s, n = t.scrollLeft, r = n >= e.clientWidth - (window.innerWidth + 15), h = n <= 15;
-        (l > 0 && h || l < 0 && r) && (this.allowScroll = !0);
+        const l = i.changedTouches[0].clientX - s, n = t.scrollLeft, c = n >= e.clientWidth - (window.innerWidth + 15), h = n <= 15;
+        (l > 0 && h || l < 0 && c) && (this.allowScroll = !0);
       });
     } else
       this.allowScroll = !1, t.addEventListener("wheel", (s) => {
@@ -117,8 +132,8 @@ class p {
         s = i.touches[0].clientY;
       }), t.addEventListener("touchend", (i) => {
         this.allowScroll = !1;
-        const l = i.changedTouches[0].clientY - s, n = t.scrollTop, r = n >= e.clientHeight - (window.innerHeight + 15), h = n <= 15;
-        (l > 0 && h || l < 0 && r) && (this.allowScroll = !0);
+        const l = i.changedTouches[0].clientY - s, n = t.scrollTop, c = n >= e.clientHeight - (window.innerHeight + 15), h = n <= 15;
+        (l > 0 && h || l < 0 && c) && (this.allowScroll = !0);
       });
     } else
       this.allowScroll = !1, t.addEventListener("wheel", (s) => {
@@ -140,7 +155,7 @@ class p {
     Array.from(document.querySelectorAll(".sf-trigger")).forEach((s) => s.classList.remove("active")), t.classList.add("active");
   }
 }
-class v {
+class w {
   constructor(t, e, s, i) {
     o(this, "sf");
     o(this, "sections");
@@ -159,12 +174,9 @@ class v {
     return e.classList.add("sf-dot", "sf-trigger"), e.setAttribute("data-sf-index", t.toString()), t === 0 && e.classList.add("active"), e;
   }
 }
-function S(c = 1024) {
-  return window.innerWidth < c;
-}
 var f;
-((c) => {
-  c.defaultOptions = {
+((r) => {
+  r.defaultOptions = {
     horizontal: !1,
     paginate: !1,
     paginateAxis: "y",
@@ -187,7 +199,7 @@ class m {
     o(this, "isMobile");
     o(this, "sectionManager");
     o(this, "onChangeCallback");
-    this.sf = document.querySelector(".scrollflow"), this.sfwrapper = document.querySelector(".sf-wrapper"), this.sections = document.querySelectorAll(".sf-section"), this.horizontal = !1, this.paginate = !1, this.paginateAxis = "y", this.breakpoint = 1024, this.isMobile = !1, this.fade = "content", this.speed = 900, this.sectionManager = new p(this.sfwrapper, this.sections, this.horizontal, this.isMobile, this.onSectionChange.bind(this)), this.onChangeCallback = null;
+    this.sf = document.querySelector(".scrollflow"), this.sfwrapper = document.querySelector(".sf-wrapper"), this.sections = document.querySelectorAll(".sf-section"), this.horizontal = !1, this.paginate = !1, this.paginateAxis = "y", this.breakpoint = 1024, this.isMobile = !1, this.fade = "content", this.speed = 900, this.sectionManager = new u(this.sfwrapper, this.sections, this.horizontal, this.isMobile, this.onSectionChange.bind(this)), this.onChangeCallback = null;
   }
   applyFade() {
     this.sf && (this.sf.classList.remove("fade", "fade-content"), this.fade === "all" ? this.sf.classList.add("fade") : this.fade === "content" && this.sf.classList.add("fade-content"));
@@ -201,7 +213,7 @@ class m {
     `, document.head.appendChild(t);
   }
   handlePaginate() {
-    this.sf && new v(this.sf, this.sections, this.horizontal, this.paginateAxis).initializePagination();
+    this.sf && new w(this.sf, this.sections, this.horizontal, this.paginateAxis).initializePagination();
   }
   initializeSections() {
     this.sections.forEach((t, e) => {
@@ -209,11 +221,7 @@ class m {
         t.classList.add("is-first"), t.classList.add("sf-section-active");
         return;
       }
-      if (t.style.display = "none", this.horizontal) {
-        t.style.transform = "translateX(100%)";
-        return;
-      }
-      t.style.transform = "translateY(100%)";
+      t.style.display = "none", t.style.transform = p(t, this.horizontal);
     });
   }
   setupEventListeners() {
@@ -238,7 +246,7 @@ class m {
       ...f.defaultOptions,
       ...t
     };
-    this.horizontal = e.horizontal || ((s = this.sf) == null ? void 0 : s.classList.contains("horizontal")) || !1, this.paginate = e.paginate || ((i = this.sf) == null ? void 0 : i.classList.contains("paginate")) || !1, this.paginateAxis = e.paginateAxis || "y", this.breakpoint = e.breakpoint || 1024, this.isMobile = S(this.breakpoint), this.fade = e.fade || f.defaultOptions.fade || "none", this.speed = e.speed || f.defaultOptions.speed || 900, this.sectionManager = new p(this.sfwrapper, this.sections, this.horizontal, this.isMobile, this.onSectionChange.bind(this)), this.paginate && this.handlePaginate(), this.fade !== "none" && this.applyFade(), this.applyTransition(), this.initializeSections(), this.setupEventListeners();
+    this.horizontal = e.horizontal || ((s = this.sf) == null ? void 0 : s.classList.contains("horizontal")) || !1, this.paginate = e.paginate || ((i = this.sf) == null ? void 0 : i.classList.contains("paginate")) || !1, this.paginateAxis = e.paginateAxis || "y", this.breakpoint = e.breakpoint || 1024, this.isMobile = S(this.breakpoint), this.fade = e.fade || f.defaultOptions.fade || "none", this.speed = e.speed || f.defaultOptions.speed || 900, this.sectionManager = new u(this.sfwrapper, this.sections, this.horizontal, this.isMobile, this.onSectionChange.bind(this)), this.paginate && this.handlePaginate(), this.fade !== "none" && this.applyFade(), this.applyTransition(), this.initializeSections(), this.setupEventListeners();
   }
   stop() {
     this.sectionManager.stopScroll();

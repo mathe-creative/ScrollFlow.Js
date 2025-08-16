@@ -3,6 +3,7 @@ import "./styles.css";
 import { SectionManager } from './SectionManager.js';
 import { PaginationManager } from './PaginationManager.js';
 import { isMobileDevice } from './Utils.js';
+import { getAutoFlowOrigin } from './Utils.js';
 import { ScrollFlowOptions } from './Options.js';
 
 class ScrollFlow {
@@ -78,12 +79,7 @@ class ScrollFlow {
       
       el.style.display = "none";
 
-      if (this.horizontal) {
-        el.style.transform = "translateX(100%)";
-        return;
-      }
-      
-      el.style.transform = "translateY(100%)";
+      el.style.transform = getAutoFlowOrigin(el, this.horizontal);
     });
   }
 

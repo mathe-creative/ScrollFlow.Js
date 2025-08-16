@@ -1,3 +1,5 @@
+import { getAutoFlowOrigin } from "./Utils";
+
 export class SectionManager {
   private sfwrapper: HTMLElement;
   private sections: NodeListOf<HTMLElement>;
@@ -180,11 +182,7 @@ export class SectionManager {
       this.setActiveSection(sectionCurrent, "prev");
 
       if (!sectionCurrent.classList.contains("is-first")) {
-        if (!this.horizontal) {
-          sectionCurrent.style.transform = "translateY(100%)";
-        } else {
-          sectionCurrent.style.transform = "translateX(100%)";
-        }
+        sectionCurrent.style.transform = getAutoFlowOrigin(sectionCurrent, this.horizontal);
       }
 
       activeIndicators = linksNavigation.filter(
@@ -195,11 +193,9 @@ export class SectionManager {
     } else if (direction === "next" && sectionNext) {
       this.setActiveSection(sectionNext, "next");
 
-      if (!this.horizontal) {
-        sectionNext.style.transform = `translateY(0%)`;
-      } else {
-        sectionNext.style.transform = "translateX(0%)";
-      }
+      const transformPrefix = sectionNext.style.transform.split("(")[0];
+      
+      sectionNext.style.transform = `${transformPrefix}(0%)`;
 
       activeIndicators = linksNavigation.filter(
         (link) => link.getAttribute("data-sf-index") === nextIndex.toString()
